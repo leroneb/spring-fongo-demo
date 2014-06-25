@@ -271,12 +271,12 @@ You can see from the above code how easy it is to test a Spring Data MongoDB pro
 
 You can checkout the project from github.
 
-    git clone git@github.com:JohnathanMarkSmith/spring-fongo-demo.git
+    git clone https://github.com/leroneb/spring-fongo-demo.git
     cd spring-fongo-demo
 
 
 
-If you have any questions please email me at john@johnathanmarksmith.com
+If you have any questions please email me at lbleasdille@gatech.edu
 
 
-Thanks, Johnathan Mark Smith
+Lerone
