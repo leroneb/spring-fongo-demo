@@ -1,7 +1,7 @@
 ###  Using Fongo and nosql-unit to test Spring-Data project with MongoDB, JUnit, Log4J
 
 
-In this example I am going to show you how to test a Spring-Data MongoDB project with Fongo and nosql-unit.
+In this example I am going to show you how to test a Spring-Data MongoDB project and Java application that needs access to MongoDB with Fongo and nosql-unit.
 
 
 ### Test File with Data
@@ -57,6 +57,59 @@ five-person.json and two-person.json with test data. Now lets take a quick look 
 
             mongoTemplate.insert(p);
         }
+        
+    	/**
+    	 * Retrieve record from Fongo determined by Id.
+    	 * @param collection
+    	 * @param id
+    	 * @return Person
+    	 */
+        public Person getValue(String collection, String id){
+    		try
+    		{
+    			Person person = null;
+    			if (mongoTemplate.collectionExists(Person.class))
+    			{
+    				System.out.println("count of records inserted: " + this.countAllPersons());
+    				System.out.println(mongoTemplate.getCollectionName(Person.class));
+    					
+    				//way to find all persons in the collection
+    				List<Person> personList = mongoTemplate.findAll(Person.class);
+    				for (Person p : personList)
+    				{
+    					System.out.println(p.getName());
+    					System.out.println(p.getAge());
+    				}
+    
+    				System.out.println();
+    				System.out.println();
+    				
+    				//searching for a specific person by id or name
+    				Query query = new Query();
+    				Criteria criteria = new Criteria();
+    				criteria = criteria.and("name").in(id);
+    
+    				query.addCriteria(criteria);
+    				List<Person> personList2 = mongoTemplate.find(query, Person.class);
+    
+    				for (Person p : personList2)
+    				{
+    					System.out.println(p.getName());
+    					System.out.println(p.getAge());
+    					//actual important part
+    					person = p;
+    				}			
+    			}
+    			return person;
+    		}
+    		catch (Exception e)
+    		{
+    			System.out.println("Exception Occurred:");
+    			e.printStackTrace();
+    			return null;
+    		}
+
+	    }
 
         /**
          * this will create a {@link Person} collection if the collection does not already exists
